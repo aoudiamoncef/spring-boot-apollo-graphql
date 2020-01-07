@@ -1,0 +1,14 @@
+{
+  "name": "Pokémon GraphQL Schema",
+  "extensions": {
+    "endpoints": {
+      "GraphQL Endpoint": {
+        "url": "https://graphql-pokemon.now.sh",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": true
+      }
+    }
+  }
+}
