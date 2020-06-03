@@ -19,7 +19,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <apollo-client-maven-plugin.version>2.4.3</apollo-client-maven-plugin.version>
-        <apollo-runtime.version>1.4.4</apollo-runtime.version>
+        <apollo-runtime.version>2.1.0</apollo-runtime.version>
         <annotations.version>19.0.0</annotations.version>
         <java-dataloader.version>2.2.3</java-dataloader.version>
     </properties>
