@@ -5,39 +5,44 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.6.RELEASE</version>
+        <version>2.4.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.lahzouz.pokemon</groupId>
-    <artifactId>client</artifactId>
+    <groupId>com.lahzouz.graphql</groupId>
+    <artifactId>spring-boot-apollo-client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>client</name>
-    <description>Consume GraphQL Pokémon API with Apollo Client Maven plugin</description>
+    <description>Consume GraphQL Etmdb and Universe API's with Apollo Client Maven plugin</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <apollo-client-maven-plugin.version>2.4.3</apollo-client-maven-plugin.version>
-        <apollo-runtime.version>1.4.4</apollo-runtime.version>
-        <annotations.version>19.0.0</annotations.version>
-        <java-dataloader.version>2.2.3</java-dataloader.version>
+        <apollo-client-maven-plugin.version>4.0.0-SNAPSHOT</apollo-client-maven-plugin.version>
+        <apollo-runtime.version>2.5.5</apollo-runtime.version>
+        <annotations.version>20.1.0</annotations.version>
+        <lombok.version>1.18.14</lombok.version>
+        <springdoc-openapi-ui.version>1.5.6</springdoc-openapi-ui.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.graphql-java</groupId>
-            <artifactId>java-dataloader</artifactId>
-            <version>${java-dataloader.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-actuator</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <version>${annotations.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc-openapi-ui.version}</version>
         </dependency>
         <dependency>
             <groupId>com.apollographql.apollo</groupId>
@@ -45,15 +50,23 @@
             <version>${apollo-runtime.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>logging-interceptor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${annotations.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
@@ -64,7 +77,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
             <plugin>
-                <groupId>com.github.sparow199</groupId>
+                <groupId>com.github.aoudiamoncef</groupId>
                 <artifactId>apollo-client-maven-plugin</artifactId>
                 <version>${apollo-client-maven-plugin.version}</version>
                 <executions>
@@ -74,11 +87,99 @@
                         </goals>
                         <configuration>
                             <skip>false</skip>
-                            <rootPackageName>com.lahzouz.pokemon.client</rootPackageName>
-                            <generateIntrospectionFile>true</generateIntrospectionFile>
-                            <schemaUrl>https://graphql-pokemon.now.sh</schemaUrl>
-                            <introspectionFile>${project.build.directory}/graphql/schema.json</introspectionFile>
-                            <!--                            <introspectionFile>${project.basedir}/src/main/graphql/schema.json</introspectionFile>-->
+                            <services>
+                                <etmdb>
+                                    <introspection>
+                                        <enabled>true</enabled>
+                                        <endpointUrl>https://etmdb.com/graphql</endpointUrl>
+                                        <prettyPrint>true</prettyPrint>
+                                    </introspection>
+                                </etmdb>
+
+                                <unknown>
+                                    <enabled>false</enabled>
+                                </unknown>
+
+                                <universe-api>
+                                    <enabled>true</enabled>
+                                    <addSourceRoot>true</addSourceRoot>
+                                    <sourceFolder>${project.basedir}/src/main/graphql/universe</sourceFolder>
+                                    <schemaPath>${project.basedir}/src/main/graphql/universe/schema.json</schemaPath>
+                                    <includes>
+                                        <include>**/*.graphql</include>
+                                        <include>**/*.gql</include>
+                                        <include>**/*.json</include>
+                                        <include>**/*.sdl"</include>
+                                    </includes>
+                                    <excludes>
+                                        <exclude>**/*.kakah"</exclude>
+                                    </excludes>
+
+                                    <compilationUnit>
+                                        <name>universe</name>
+                                        <outputDirectory>
+                                            ${project.build.directory}/generated-sources/graphql-client/universe/
+                                        </outputDirectory>
+
+                                        <generateOperationDescriptors>true</generateOperationDescriptors>
+                                        <operationOutputFile>
+                                            ${project.build.directory}/generated/operationOutput/apollo/universe/operationOutput.json
+                                        </operationOutputFile>
+
+                                        <compilerParams>
+                                            <rootFolders>
+                                                <rootFolder>${project.basedir}/src/main/graphql/universe/</rootFolder>
+                                            </rootFolders>
+                                            <generateKotlinModels>false</generateKotlinModels>
+                                            <warnOnDeprecatedUsages>true</warnOnDeprecatedUsages>
+                                            <failOnWarnings>true</failOnWarnings>
+                                            <generateOperationOutput>true</generateOperationOutput>
+                                            <customTypeMapping>
+                                                <Long>java.lang.Long</Long>
+                                                <Date>java.time.LocalDate</Date>
+                                            </customTypeMapping>
+                                            <operationIdGeneratorClass>
+                                                com.apollographql.apollo.compiler.OperationIdGenerator$Sha256
+                                            </operationIdGeneratorClass>
+                                            <suppressRawTypesWarning>true</suppressRawTypesWarning>
+                                            <useSemanticNaming>true</useSemanticNaming>
+                                            <nullableValueType>ANNOTATED</nullableValueType>
+                                            <generateModelBuilder>true</generateModelBuilder>
+                                            <useJavaBeansSemanticNaming>true</useJavaBeansSemanticNaming>
+                                            <generateVisitorForPolymorphicDatatypes>
+                                                customTypeMapping
+                                            </generateVisitorForPolymorphicDatatypes>
+                                            <rootPackageName>com.lahzouz.graphql.client.universe</rootPackageName>
+                                            <packageName>com.lahzouz.graphql.client.universe</packageName>
+                                            <generateAsInternal>true</generateAsInternal>
+                                            <sealedClassesForEnumsMatching>.*</sealedClassesForEnumsMatching>
+                                            <generateApolloMetadata>true</generateApolloMetadata>
+                                            <metadataOutputFile>
+                                                ${project.build.directory}/generated/metadata/apollo/universe/metadata.json
+                                            </metadataOutputFile>
+                                            <alwaysGenerateTypesMatching>
+                                                <alwaysGenerateTypesMatching>.*</alwaysGenerateTypesMatching>
+                                            </alwaysGenerateTypesMatching>
+                                        </compilerParams>
+                                    </compilationUnit>
+
+                                    <introspection>
+                                        <enabled>true</enabled>
+                                        <endpointUrl>https://www.universe.com/graphql</endpointUrl>
+                                        <headers>
+                                            <Authorization>Bearer token</Authorization>
+                                        </headers>
+                                        <schemaFile>${project.basedir}/src/main/graphql/universe/schema.json
+                                        </schemaFile>
+                                        <connectTimeoutSeconds>10</connectTimeoutSeconds>
+                                        <readTimeoutSeconds>10</readTimeoutSeconds>
+                                        <writeTimeoutSeconds>10</writeTimeoutSeconds>
+                                        <useSelfSignedCertificat>true</useSelfSignedCertificat>
+                                        <useGzip>true</useGzip>
+                                        <prettyPrint>true</prettyPrint>
+                                    </introspection>
+                                </universe-api>
+                            </services>
                         </configuration>
                     </execution>
                 </executions>

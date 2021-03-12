@@ -1,0 +1,10 @@
+query cinemas($before: String!, $after: String!) {
+    allCinemaDetails(before: $before, after: $after) {
+        edges {
+            node {
+                slug
+                hallName
+            }
+        }
+    }
+}

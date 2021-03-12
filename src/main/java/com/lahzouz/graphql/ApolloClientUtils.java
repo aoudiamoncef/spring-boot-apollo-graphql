@@ -1,11 +1,12 @@
-package com.lahzouz.pokemon.client;
+package com.lahzouz.graphql;
+
+import java.util.concurrent.CompletableFuture;
+
+import org.jetbrains.annotations.NotNull;
 
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.concurrent.CompletableFuture;
 
 public class ApolloClientUtils {
 

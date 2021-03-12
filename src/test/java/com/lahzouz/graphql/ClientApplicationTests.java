@@ -1,4 +1,4 @@
-package com.lahzouz.pokemon.client;
+package com.lahzouz.graphql;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
