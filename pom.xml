@@ -21,7 +21,7 @@
         <apollo-client-maven-plugin.version>2.4.3</apollo-client-maven-plugin.version>
         <apollo-runtime.version>1.4.4</apollo-runtime.version>
         <annotations.version>19.0.0</annotations.version>
-        <java-dataloader.version>2.2.3</java-dataloader.version>
+        <java-dataloader.version>2021-03-30T02-56-19-5805475</java-dataloader.version>
     </properties>
 
     <dependencies>
