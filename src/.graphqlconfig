@@ -1,9 +1,16 @@
 {
-  "name": "Pokémon GraphQL Schema",
+  "name": "GraphQL Schemas configurations",
   "extensions": {
     "endpoints": {
-      "GraphQL Endpoint": {
-        "url": "https://graphql-pokemon.now.sh",
+      "ANILIST": {
+        "url": "https://etmdb.com/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": true
+      },
+      "UNIVERSE": {
+        "url": "https://www.universe.com/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },

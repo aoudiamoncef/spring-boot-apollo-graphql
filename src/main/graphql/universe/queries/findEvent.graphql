@@ -1,0 +1,16 @@
+query findEvent($id: ID!) {
+    event(id: $id) {
+        title
+        address
+        currency
+        host {
+            firstName
+        }
+        timeSlots {
+            totalCount
+            nodes {
+                startAt
+            }
+        }
+    }
+}

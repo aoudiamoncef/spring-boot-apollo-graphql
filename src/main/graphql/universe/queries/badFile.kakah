@@ -1,0 +1,4 @@
+    toto(id: $id) {
+        title
+        address
+}

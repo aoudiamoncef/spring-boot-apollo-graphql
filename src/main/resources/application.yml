@@ -1,0 +1,53 @@
+server:
+  port: 8080
+  error:
+    whitelabel:
+      enabled: off
+    include-stacktrace: always
+    include-message: always
+  compression:
+    enabled: on
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+spring:
+  config:
+    activate:
+      on-profile: local, test, it
+  devtools:
+    add-properties: on
+  jmx:
+    enabled: on
+  main:
+    banner-mode: "CONSOLE"
+    lazy-initialization: off
+
+springdoc:
+  swagger-ui:
+    enabled: on
+    path: /swagger
+    url: /openapi
+    disable-swagger-default-url: on
+  api-docs:
+    enabled: on
+    path: /api-docs
+  show-actuator: on
+
+app:
+  etmdb:
+    name: etmdb-api
+    url: https://etmdb.com/graphql
+    key: 1a19a41d-5555-85cd-693d-8778dfc370d1
+    timeout:
+      call: 10s
+      connect: 1s
+      read: 8s
+      write: 1s
+  universe:
+    name: universe-api
+    url: https://www.universe.com/graphql
+    key: 1a19a41d-5555-85cd-693d-8778dfc370d4
+    timeout:
+      call: 10s
+      connect: 1s
+      read: 8s
+      write: 1s
