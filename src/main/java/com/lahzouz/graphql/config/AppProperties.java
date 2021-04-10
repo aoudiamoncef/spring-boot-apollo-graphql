@@ -1,4 +1,4 @@
-package com.lahzouz.graphql;
+package com.lahzouz.graphql.config;
 
 import java.time.Duration;
 
@@ -16,13 +16,21 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "app")
 public class AppProperties {
     /**
-     * API manager configuration.
+     * API etmdb configuration.
      */
-    private Apim apim;
+    private Service etmdb;
+    /**
+     * API universe configuration.
+     */
+    private Service universe;
 
     @Getter
     @Setter
-    public static final class Apim {
+    public static final class Service {
+        /**
+         * Service name.
+         */
+        private String name;
         /**
          * server URL.
          */

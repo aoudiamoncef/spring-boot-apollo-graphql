@@ -33,7 +33,17 @@ springdoc:
   show-actuator: on
 
 app:
-  apim:
+  etmdb:
+    name: etmdb-api
+    url: https://etmdb.com/graphql
+    key: 1a19a41d-5555-85cd-693d-8778dfc370d1
+    timeout:
+      call: 10s
+      connect: 1s
+      read: 8s
+      write: 1s
+  universe:
+    name: universe-api
     url: https://www.universe.com/graphql
     key: 1a19a41d-5555-85cd-693d-8778dfc370d4
     timeout:

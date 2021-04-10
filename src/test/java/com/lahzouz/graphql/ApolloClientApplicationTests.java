@@ -3,7 +3,7 @@ package com.lahzouz.graphql;
 import org.junit.jupiter.api.Test;
 
 @UnitTest
-class ClientApplicationTests {
+class ApolloClientApplicationTests {
 
 	@Test
 	void contextLoads() {

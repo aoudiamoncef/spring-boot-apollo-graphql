@@ -1,4 +1,4 @@
-package com.lahzouz.graphql;
+package com.lahzouz.graphql.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
