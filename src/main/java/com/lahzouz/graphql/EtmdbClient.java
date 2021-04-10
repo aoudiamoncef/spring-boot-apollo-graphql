@@ -10,6 +10,9 @@ import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
+
+import java.util.concurrent.CompletableFuture;
 
 
 @Slf4j
@@ -29,5 +32,25 @@ public class EtmdbClient {
         return ApolloClientUtils.toCompletableFuture(findEventCall).join();
     }
 
+    public CompletableFuture<Response<CinemasQuery.Data>> cinemasCf(final String before, final String after) {
+        final ApolloQueryCall<CinemasQuery.Data> findEventCall = apolloClient
+                .query(CinemasQuery.builder()
+                        .before(before)
+                        .after(after)
+                        .build())
+                .toBuilder().httpCachePolicy(HttpCachePolicy.NETWORK_ONLY).build();
 
+        return ApolloClientUtils.toCompletableFuture(findEventCall);
+    }
+
+    public Mono<Response<CinemasQuery.Data>> cinemasMono(final String before, final String after) {
+        final ApolloQueryCall<CinemasQuery.Data> findEventCall = apolloClient
+                .query(CinemasQuery.builder()
+                        .before(before)
+                        .after(after)
+                        .build())
+                .toBuilder().httpCachePolicy(HttpCachePolicy.NETWORK_ONLY).build();
+
+        return ApolloClientUtils.toMono(findEventCall);
+    }
 }

@@ -10,6 +10,9 @@ import com.apollographql.apollo.api.cache.http.HttpCachePolicy;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
+
+import java.util.concurrent.CompletableFuture;
 
 
 @Slf4j
@@ -27,4 +30,21 @@ public class UniverseClient  {
         return ApolloClientUtils.toCompletableFuture(findEventCall).join();
     }
 
+    public CompletableFuture<Response<FindEventQuery.Data>> findEventCf(final String id) {
+        final ApolloQueryCall<FindEventQuery.Data> findEventCall = apolloClient
+                .query(new FindEventQuery(id))
+                .toBuilder()
+                .httpCachePolicy(HttpCachePolicy.NETWORK_ONLY).build();
+
+        return ApolloClientUtils.toCompletableFuture(findEventCall);
+    }
+
+    public Mono<Response<FindEventQuery.Data>> findEventMono(final String id) {
+        final ApolloQueryCall<FindEventQuery.Data> findEventCall = apolloClient
+                .query(new FindEventQuery(id))
+                .toBuilder()
+                .httpCachePolicy(HttpCachePolicy.NETWORK_ONLY).build();
+
+        return ApolloClientUtils.toMono(findEventCall);
+    }
 }

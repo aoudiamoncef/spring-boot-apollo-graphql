@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
+import reactor.core.publisher.Mono;
 
 public class ApolloClientUtils {
 
@@ -32,5 +33,19 @@ public class ApolloClientUtils {
         });
 
         return completableFuture;
+    }
+
+    public static <T> Mono<Response<T>> toMono(ApolloCall<T> apolloCall) {
+        return Mono.create(sink -> apolloCall.enqueue(new ApolloCall.Callback<T>() {
+            @Override
+            public void onResponse(@NotNull Response<T> response) {
+                sink.success(response);
+            }
+
+            @Override
+            public void onFailure(@NotNull ApolloException e) {
+                sink.error(e);
+            }
+        }));
     }
 }
