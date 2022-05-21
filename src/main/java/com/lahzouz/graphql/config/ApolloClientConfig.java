@@ -1,38 +1,34 @@
 package com.lahzouz.graphql.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-
-import com.apollographql.apollo.ApolloClient;
-import com.lahzouz.graphql.client.universe.type.CustomType;
+import com.apollographql.apollo3.ApolloClient;
+import com.apollographql.apollo3.network.http.DefaultHttpEngine;
 import com.lahzouz.graphql.util.DateGraphQLAdapter;
-
 import lombok.RequiredArgsConstructor;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 
 @Configuration
 @RequiredArgsConstructor
 public class ApolloClientConfig {
 
     @Bean
-    public ApolloClient universeApolloClient(final AppProperties appProperties, final DateGraphQLAdapter dateGraphQLAdapter) {
+    public ApolloClient universeApolloClient(final AppProperties appProperties) {
         final AppProperties.Service universe = appProperties.getUniverse();
-        return ApolloClient.builder()
-                .okHttpClient(getOkHttpClient(universe))
-                .addCustomTypeAdapter(CustomType.DATE, dateGraphQLAdapter)
+        return new ApolloClient.Builder()
+                .httpEngine(new DefaultHttpEngine(getOkHttpClient(universe)))
                 .serverUrl(universe.getUrl())
                 .build();
     }
 
     @Bean
-    public ApolloClient etmdbApolloClient(final AppProperties appProperties, final DateGraphQLAdapter dateGraphQLAdapter) {
+    public ApolloClient etmdbApolloClient(final AppProperties appProperties) {
         final AppProperties.Service etmdb = appProperties.getEtmdb();
-        return ApolloClient.builder()
-                .okHttpClient(getOkHttpClient(etmdb))
-                .addCustomTypeAdapter(CustomType.DATE, dateGraphQLAdapter)
+        return new ApolloClient.Builder()
+                .httpEngine(new DefaultHttpEngine(getOkHttpClient(etmdb)))
                 .serverUrl(etmdb.getUrl())
                 .build();
     }

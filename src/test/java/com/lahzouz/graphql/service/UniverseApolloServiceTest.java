@@ -10,11 +10,4 @@ class UniverseApolloServiceTest {
     void findEvent() {
     }
 
-    @Test
-    void findEventCf() {
-    }
-
-    @Test
-    void findEventMono() {
-    }
 }

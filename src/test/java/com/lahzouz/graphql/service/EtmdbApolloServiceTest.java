@@ -10,11 +10,4 @@ class EtmdbApolloServiceTest {
     void cinemas() {
     }
 
-    @Test
-    void cinemasCf() {
-    }
-
-    @Test
-    void cinemasMono() {
-    }
 }
